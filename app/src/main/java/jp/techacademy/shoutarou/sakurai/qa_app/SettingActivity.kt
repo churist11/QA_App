@@ -23,7 +23,7 @@ class SettingActivity : AppCompatActivity() {
         val name = sp.getString(NameKEY, "")
         nameText.setText(name)
 
-        mDataBaseReference = FirebaseDatabase.getInstance().reference
+        mDataBaseReference = FirebaseDatabase.getInstance(URL).reference
 
         // UIの初期設定
         title = "設定"

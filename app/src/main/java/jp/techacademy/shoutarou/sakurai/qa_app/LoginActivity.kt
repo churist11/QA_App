@@ -34,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        mDataBaseReference = FirebaseDatabase.getInstance().reference
+        mDataBaseReference = FirebaseDatabase.getInstance(URL).reference
 
         // FirebaseAuthのオブジェクトを取得する
         mAuth = FirebaseAuth.getInstance()
