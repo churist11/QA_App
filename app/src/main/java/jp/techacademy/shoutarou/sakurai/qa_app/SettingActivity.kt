@@ -43,9 +43,9 @@ class SettingActivity : AppCompatActivity() {
                 // 変更した表示名をFirebaseに保存する
                 val name = nameText.text.toString()
                 val userRef = mDataBaseReference.child(UsersPATH).child(user.uid)
-                val data = HashMap<String, String>()
-                data["name"] = name
-                userRef.setValue(data)
+                val updateData = HashMap<String, Any>()
+                updateData["name"] = name
+                userRef.updateChildren(updateData)
 
                 // 変更した表示名をPreferenceに保存する
                 val sp = PreferenceManager.getDefaultSharedPreferences(applicationContext)
