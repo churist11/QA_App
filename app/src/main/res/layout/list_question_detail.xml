@@ -28,6 +28,16 @@
         android:text="Small Text"
         android:id="@+id/nameTextView"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true" />
+        android:layout_above="@id/favButton"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="お気に入りに追加"
+        android:id="@+id/favButton"
+        android:background="@drawable/custom_button"
+        android:textColor="@color/colorButtonText"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>
