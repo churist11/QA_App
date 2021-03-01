@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private lateinit var mToolbar: Toolbar
     private var mGenre = 0
-
     private lateinit var mDatabaseReference: DatabaseReference
     private lateinit var mListView: ListView
     private lateinit var mQuestionArrayList: ArrayList<Question>
@@ -145,7 +144,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mDatabaseReference = FirebaseDatabase.getInstance(URL).reference
 
         // ListViewの準備
-        mListView = findViewById(R.id.listView)
+        mListView = findViewById<ListView>(R.id.listView)
         mAdapter = QuestionsListAdapter(this)
         mQuestionArrayList = ArrayList<Question>()
         mAdapter.notifyDataSetChanged()
@@ -161,11 +160,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onResume() {
         super.onResume()
+        val user = FirebaseAuth.getInstance().currentUser
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
 
         // 1:趣味を既定の選択とする
         if(mGenre == 0) {
             onNavigationItemSelected(navigationView.menu.getItem(0))
+        }
+
+        // ログイン状態を確認
+        if (user == null) {
+            // <ログインしていない場合>
+
+            // ”お気に入り”を非表示
+            navigationView.menu.findItem(R.id.nav_favorite).setVisible(false)
+
+        } else {
+            // <ログインしている場合>
+
+            // ”お気に入り”を表示
+            navigationView.menu.findItem(R.id.nav_favorite).setVisible(true)
         }
     }
 
