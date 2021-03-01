@@ -217,7 +217,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             mToolbar.title = "コンピューター"
             mGenre = 4
         } else if (id == R.id.nav_favorite) {
-            //todo: お気に入り一覧("FavListActivity")画面を起動
+
+            // 選択状態にしない
+            item.setCheckable(false)
+
+            // お気に入り一覧("FavListActivity")画面を起動
             val intent = Intent(applicationContext, FavListActivity::class.java)
             startActivity(intent)
         }
