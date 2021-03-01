@@ -217,8 +217,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             mToolbar.title = "コンピューター"
             mGenre = 4
         } else if (id == R.id.nav_favorite) {
-            mToolbar.title = "お気に入り"
-            mGenre = 5
+            //todo: お気に入り一覧("FavListActivity")画面を起動
+            val intent = Intent(applicationContext, FavListActivity::class.java)
+            startActivity(intent)
         }
 
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
