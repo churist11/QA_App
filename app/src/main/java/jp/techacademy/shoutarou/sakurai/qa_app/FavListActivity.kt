@@ -51,13 +51,11 @@ class FavListActivity : AppCompatActivity() {
             for (genreSnapshot in p0.children) {
 
                 for (quidSnapshot in genreSnapshot.children) {
-//                    Log.d("DEDE","mContentsListener:${quidSnapshot.key}")
 
                     // データのキーとmFavKeyArrayListを比較し、合致するデータを抽出
                     for (favKey in mFavKeyArrayList) {
 
                         if (quidSnapshot.key == favKey) {
-//                            Log.d("DEDE", "MATCHED")
 
                             // 合致したデータのvalueをmapに変換
                             val map = quidSnapshot.value as Map<String, String>
@@ -65,8 +63,6 @@ class FavListActivity : AppCompatActivity() {
                             // Questionオブジェクトに変換,mQuestionArrayListにオブジェクトを追加
                             convertToQuestionArray(map, quidSnapshot)
 
-                        } else {
-//                            Log.d("DEDE", "NOT MATCHED")
                         }
 
                     }
@@ -105,14 +101,6 @@ class FavListActivity : AppCompatActivity() {
 
         // <Listの初期化>
         mQuestionArrayList = ArrayList<Question>()
-
-
-        // 読み込み中、インジケータを表示して、取得成功後に、以後の処理を行う
-        // 取得に失敗の場合は、// プログレスバーを非表示にする
-        //                progressBar.visibility = View.GONE・VISIBLE
-        //
-        //                // Activityを閉じる
-        //                finish()
 
         // 参照
         mDatabaseReference = FirebaseDatabase.getInstance(URL).reference
