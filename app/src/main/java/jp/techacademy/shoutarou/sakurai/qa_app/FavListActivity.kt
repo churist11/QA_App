@@ -1,5 +1,6 @@
 package jp.techacademy.shoutarou.sakurai.qa_app
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -38,6 +39,11 @@ class FavListActivity : AppCompatActivity() {
 
             Log.d("DEDE","${mFavKeyArrayList}")
 
+            // todo: お気に入りのデータに変更が有るたびに、mQuestionArrayListを更新する
+
+//            val contentsRef = mDatabaseReference.child(ContentsPATH)
+//            contentsRef.addListenerForSingleValueEvent(mContentsListener)
+
         }
 
         override fun onCancelled(p0: DatabaseError) {
@@ -60,8 +66,11 @@ class FavListActivity : AppCompatActivity() {
                             // 合致したデータのvalueをmapに変換
                             val map = quidSnapshot.value as Map<String, String>
 
-                            // Questionオブジェクトに変換,mQuestionArrayListにオブジェクトを追加
-                            convertToQuestionArray(map, quidSnapshot)
+                            // Questionオブジェクトに変換
+                            val question = getQuestionFromMap(map, quidSnapshot.key)
+
+                            // mQuestionArrayListにオブジェクトを追加
+                            mQuestionArrayList.add(question)
 
                         }
 
@@ -70,6 +79,9 @@ class FavListActivity : AppCompatActivity() {
             }
 
             Log.d("DEDE", "${mQuestionArrayList}")
+
+            // データの更新
+            mAdapter.notifyDataSetChanged()
         }
 
         override fun onCancelled(p0: DatabaseError) {
@@ -123,9 +135,17 @@ class FavListActivity : AppCompatActivity() {
 
         // データの更新
         mAdapter.notifyDataSetChanged()
+
+        // ItemにClickListenerを設定
+        mListView.setOnItemClickListener { parent, view, position, id ->
+            // Questionのインスタンスを渡して質問詳細画面を起動する
+            val intent = Intent(applicationContext, QuestionDetailActivity::class.java)
+            intent.putExtra("question", mQuestionArrayList[position])
+            startActivity(intent)
+        }
     }
 
-    private fun convertToQuestionArray(map : Map<String, String>, dataSnapshot : DataSnapshot) {
+    private fun getQuestionFromMap(map : Map<String, String>, quid: String?): Question {
         val title = map["title"] ?: ""
         val body = map["body"] ?: ""
         val name = map["name"] ?: ""
@@ -151,9 +171,7 @@ class FavListActivity : AppCompatActivity() {
             }
         }
 
-        val question = Question(title, body, name, uid, dataSnapshot.key ?: "",
+        return Question(title, body, name, uid, quid ?: "",
             0, bytes, answerArrayList)
-        mQuestionArrayList.add(question)
-        mAdapter.notifyDataSetChanged()
     }
 }
