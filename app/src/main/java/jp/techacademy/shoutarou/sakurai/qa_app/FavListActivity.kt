@@ -39,10 +39,9 @@ class FavListActivity : AppCompatActivity() {
 
             Log.d("DEDE","${mFavKeyArrayList}")
 
-            // todo: お気に入りのデータに変更が有るたびに、mQuestionArrayListを更新する
-
-//            val contentsRef = mDatabaseReference.child(ContentsPATH)
-//            contentsRef.addListenerForSingleValueEvent(mContentsListener)
+            // このListenerがトリガーされるたびに、mQuestionArrayListを更新する為にmContentsListenerをトリガー
+            val contentsRef = mDatabaseReference.child(ContentsPATH)
+            contentsRef.addListenerForSingleValueEvent(mContentsListener)
 
         }
 
@@ -53,6 +52,9 @@ class FavListActivity : AppCompatActivity() {
 
     private val mContentsListener = object : ValueEventListener {
         override fun onDataChange(p0: DataSnapshot) {
+
+            // mQuestionArrayListをリセット
+            mQuestionArrayList.clear()
 
             for (genreSnapshot in p0.children) {
 
@@ -120,9 +122,9 @@ class FavListActivity : AppCompatActivity() {
         val contentsRef = mDatabaseReference.child(ContentsPATH)
 
         // ログイン中の"favorite"にリスナーを設定する
-        favRef.addListenerForSingleValueEvent(mFavDataListener)
+        favRef.addValueEventListener(mFavDataListener)
 
-        // 質問コンテンツ全てにリスナーを設定する
+        // 質問コンテンツ全てに対しシングルリスナーをトリガー
         contentsRef.addListenerForSingleValueEvent(mContentsListener)
 
         // Adapterの準備
