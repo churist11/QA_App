@@ -73,7 +73,13 @@ class QuestionDetailListAdapter(context: Context, private val mQuestion: Questio
             bodyTextView.text = body
 
             val nameTextView = convertView.findViewById<View>(R.id.nameTextView) as TextView
-            nameTextView.text = name
+
+            // 質問者とログイン中ユーザのuidが一致する場合、質問者名の隣に”あなた”を追加表示
+            if (FirebaseAuth.getInstance().currentUser!!.uid == mQuestion.uid) {
+                nameTextView.text = "${name}:あなた"
+            } else {
+                nameTextView.text = name
+            }
 
             val bytes = mQuestion.imageBytes
             if (bytes.isNotEmpty()) {
